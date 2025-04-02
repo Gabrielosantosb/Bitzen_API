@@ -1,0 +1,6 @@
+@Bitzen_Controllers_HostAddress = http://localhost:5274
+
+GET {{Bitzen_Controllers_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
