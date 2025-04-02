@@ -6,10 +6,6 @@ namespace Bitzen_API.Application.Services.Token
     {
 
         private readonly IHttpContextAccessor _acessor;
-        public TokenService(IHttpContextAccessor acessor)
-        {
-            _acessor = acessor;
-        }
         public string GenerateToken(string key, string issuer, string audience, UserModel user)
         {
             throw new NotImplementedException();
