@@ -1,11 +1,9 @@
 ﻿using Bitzen_API.Application.Services.User;
-using Bitzen_API.ORM.Entity;
 using Bitzen_API.ORM.Model.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bitzen_API.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -16,12 +14,11 @@ namespace Bitzen_API.Controllers
             _userService = userService;
         }
 
-
         /// <summary>
-        /// Cria um novo Usuário com os dados fornecidos.
+        /// Cria um novo usuário.
         /// </summary>
-        /// <param name="createUserModel">Objeto contendo as informações do novo usuario.</param>
-        /// <returns>Retorna o produto criado se bem-sucedido, ou 400 (Bad Request) em caso de erro.</returns>
+        /// <param name="model">Dados do usuário a ser criado.</param>
+        /// <returns>Retorna o usuário criado ou mensagem de erro.</returns>
         [HttpPost]
         public IActionResult CreateUser([FromBody] CreateUserModel model)
         {
@@ -34,11 +31,17 @@ namespace Bitzen_API.Controllers
             return Ok(result.Data);
         }
 
+        /// <summary>
+        /// Atualiza os dados de um usuário existente.
+        /// </summary>
+        /// <param name="userId">ID do usuário a ser atualizado.</param>
+        /// <param name="model">Novos dados do usuário.</param>
+        /// <returns>Retorna o usuário atualizado ou mensagem de erro.</returns>
         [HttpPut("update-user/{userId}")]
         public IActionResult UpdateUser(int userId, [FromBody] UpdateUserModel model)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);            
+                return BadRequest(ModelState);
 
             var result = _userService.UpdateUser(userId, model);
             if (!result.Success)
@@ -47,6 +50,11 @@ namespace Bitzen_API.Controllers
             return Ok(result.Data);
         }
 
+        /// <summary>
+        /// Remove um usuário do sistema.
+        /// </summary>
+        /// <param name="userId">ID do usuário a ser deletado.</param>
+        /// <returns>Retorna mensagem de sucesso ou erro.</returns>
         [HttpDelete("delete-user/{userId}")]
         public IActionResult DeleteUser(int userId)
         {
@@ -56,7 +64,5 @@ namespace Bitzen_API.Controllers
 
             return Ok(new { message = result.Data });
         }
-
-
     }
 }
