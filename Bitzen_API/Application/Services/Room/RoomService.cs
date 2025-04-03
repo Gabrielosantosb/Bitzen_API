@@ -11,28 +11,35 @@ namespace Bitzen_API.Application.Services.Room
 
     {
         private readonly BaseRepository<RoomModel> _roomRepository;        
+        private readonly BaseRepository<UserModel> _userRepository;        
         private readonly IMapper _mapper;
         private ITokenService _tokenService;
         private readonly IConfiguration _configuration;
 
-        public RoomService(BaseRepository<RoomModel> roomRepository, IMapper mapper, IConfiguration configuration, ITokenService tokenService)
+        public RoomService(BaseRepository<RoomModel> roomRepository, BaseRepository<UserModel> userRepository, IMapper mapper, IConfiguration configuration, ITokenService tokenService)
         {
             _roomRepository = roomRepository;
             _mapper = mapper;
             _configuration = configuration;
+            _userRepository = userRepository;
             _tokenService = tokenService;
         }
 
-        public Result<RoomModel> CreateRoom(CreateRoomModel createRoomModel)
-        {
-            
+        public Result<RoomResponseModel> CreateRoom(CreateRoomModel createRoomModel)
+        {            
             var newRoom = _mapper.Map<RoomModel>(createRoomModel);
+            
             var userId = _tokenService.GetUserId();
+            
             newRoom.CreatedByUserId = userId;
+            
             var result = _roomRepository.Add(newRoom);
             _roomRepository.SaveChanges();
-            return Result<RoomModel>.Ok(result);
+            
+            var mapped = _mapper.Map<RoomResponseModel>(result);
+            return Result<RoomResponseModel>.Ok(mapped);
         }
+
 
         public Result<RoomModel> UpdateRoom(int roomId, UpdateRoomModel updateRoomModel)
         {

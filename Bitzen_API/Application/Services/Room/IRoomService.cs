@@ -6,7 +6,7 @@ namespace Bitzen_API.Application.Services.Room
 {
     public interface IRoomService
     {
-        Result<RoomModel> CreateRoom(CreateRoomModel createRoomModel);
+        Result<RoomResponseModel> CreateRoom(CreateRoomModel createRoomModel);
         Result<RoomModel> UpdateRoom(int roomId, UpdateRoomModel updateRoomModel);
         Result<string> DeleteRoom(int roomId);        
     }

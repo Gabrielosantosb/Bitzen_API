@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bitzen_API.Migrations
 {
     [DbContext(typeof(BitzenDbContext))]
-    [Migration("20250403222915_ajustinReservationRelationship")]
-    partial class ajustinReservationRelationship
+    [Migration("20250403225836_Reservation")]
+    partial class Reservation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,9 +45,8 @@ namespace Bitzen_API.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.HasKey("ReservationId");
 

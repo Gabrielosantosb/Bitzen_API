@@ -11,7 +11,7 @@ namespace Bitzen_API.ORM.Entity
         
         public DateTime EndTime { get; set; }
         
-        public string Status { get; set; }
+        public bool Status { get; set; }
 
         public int CreatedByUserId { get; set; }
 

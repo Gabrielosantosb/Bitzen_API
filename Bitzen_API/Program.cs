@@ -1,9 +1,13 @@
+using Bitzen_API.Application.Services.Reservation;
 using Bitzen_API.Application.Services.Room;
 using Bitzen_API.Application.Services.Token;
 using Bitzen_API.Application.Services.User;
 using Bitzen_API.ORM.Context;
 using Bitzen_API.ORM.Entity;
+using Bitzen_API.ORM.Mappings.Reservation;
+using Bitzen_API.ORM.Mappings.Room;
 using Bitzen_API.ORM.Mappings.User;
+using Bitzen_API.ORM.Model.Reservation;
 using Bitzen_API.ORM.Model.User;
 using Bitzen_API.ORM.Repository;
 using FluentValidation;
@@ -55,12 +59,15 @@ builder.Services.AddSwaggerGen(c =>
 #region FluentValidation
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
+//builder.Services.AddScoped<IValidator<CreateReservationModel>, CreateReservationModelValidator>();
 // builder.Services.AddScoped<IValidator<CreateUserModel>, CreateUserModelValidator>();
 #endregion
 
 #region AutoMapper
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+builder.Services.AddAutoMapper(typeof(RoomMappingProfile));
+builder.Services.AddAutoMapper(typeof(ReservationMappingProfile));
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 #endregion
 
@@ -68,9 +75,13 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<BaseRepository<UserModel>>();
 builder.Services.AddScoped<BaseRepository<RoomModel>>();
+builder.Services.AddScoped<BaseRepository<ReservationModel>>();
+
+
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
 #endregion
 
 #region PostgreSQL Config

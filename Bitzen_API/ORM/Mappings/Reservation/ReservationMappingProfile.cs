@@ -8,7 +8,7 @@ namespace Bitzen_API.ORM.Mappings.Reservation
     {
         public ReservationMappingProfile()
         {
-            CreateMap<CreateReservationModel, ReservationModel>();
+            CreateMap<CreateReservationModel, ReservationModel>();            
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Bitzen_API.ORM.Mappings.Room
         public RoomMappingProfile()
         {
             CreateMap<CreateRoomModel, RoomModel>();
+            CreateMap<RoomModel, RoomResponseModel>();
             CreateMap<UpdateRoomModel, RoomModel>()
                 .ForMember(dest => dest.RoomId, opt => opt.Ignore());
         }

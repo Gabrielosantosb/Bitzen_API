@@ -42,9 +42,8 @@ namespace Bitzen_API.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("Status")
+                        .HasColumnType("boolean");
 
                     b.HasKey("ReservationId");
 
