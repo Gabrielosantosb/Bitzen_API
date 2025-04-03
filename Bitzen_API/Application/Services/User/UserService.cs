@@ -36,6 +36,26 @@ namespace Bitzen_API.Application.Services.User
             return Result<UserModel>.Ok(res);
         }
 
+        public Result<UserModel> UpdateUser(int userId, UpdateUserModel updatedUserModel)
+        {
+            var user = _userRepository.GetById(userId);
+            if (user == null)
+                return Result<UserModel>.Fail("Usuário não encontrado.");
+
+            if (user.Email != updatedUserModel.Email && IsEmailTaken(updatedUserModel.Email))
+                return Result<UserModel>.Fail("E-mail já está em uso por outro usuário.");
+            
+            _mapper.Map(updatedUserModel, user);
+
+            if (!string.IsNullOrWhiteSpace(updatedUserModel.Password))
+                user.Password = BCrypt.Net.BCrypt.HashPassword(updatedUserModel.Password);
+
+            _userRepository.Update(user);
+            _userRepository.SaveChanges();
+
+            return Result<UserModel>.Ok(user);
+        }
+
 
 
         public Task<bool> ValidateCredentials(string email, string password)
@@ -54,6 +74,6 @@ namespace Bitzen_API.Application.Services.User
             return BCrypt.Net.BCrypt.Verify(enteredPassword, storedPassword);
         }
 
-        
+      
     }
 }

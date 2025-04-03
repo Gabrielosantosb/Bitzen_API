@@ -7,7 +7,9 @@ namespace Bitzen_API.ORM.Mappings.User
     {
         public UserMappingProfile() {
 
-            CreateMap<CreateUserModel, UserModel>();                 
+            CreateMap<CreateUserModel, UserModel>();
+            CreateMap<UpdateUserModel, UserModel>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore());
         }
 
     }

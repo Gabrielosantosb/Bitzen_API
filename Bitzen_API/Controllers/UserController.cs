@@ -1,4 +1,5 @@
 ﻿using Bitzen_API.Application.Services.User;
+using Bitzen_API.ORM.Entity;
 using Bitzen_API.ORM.Model.User;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +33,20 @@ namespace Bitzen_API.Controllers
 
             return Ok(result.Data);
         }
+
+        [HttpPut("update-user/{userId}")]
+        public IActionResult UpdateUser(int userId, [FromBody] UpdateUserModel model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);            
+
+            var result = _userService.UpdateUser(userId, model);
+            if (!result.Success)
+                return BadRequest(new { message = result.Message });
+
+            return Ok(result.Data);
+        }
+
 
     }
 }

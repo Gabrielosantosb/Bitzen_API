@@ -7,6 +7,7 @@ namespace Bitzen_API.Application.Services.User
     public interface IUserService
     {
         Result<UserModel> CreateUser(CreateUserModel createUserModel);
+        Result<UserModel> UpdateUser(int userId, UpdateUserModel updatedUserModel);
 
         Task<bool> ValidateCredentials(string email, string password);
 
