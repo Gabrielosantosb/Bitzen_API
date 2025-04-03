@@ -56,6 +56,15 @@ namespace Bitzen_API.Application.Services.User
             return Result<UserModel>.Ok(user);
         }
 
+        public Result<string> DeleteUser(int userId)
+        {
+            var user = _userRepository.GetById(userId);
+            if(user == null) return Result<string>.Fail("Usuário não encontrado.");
+            _userRepository.Delete(user);
+            _userRepository.SaveChanges();
+            return Result<string>.Ok("Usuário deletado com sucesso.");
+        }
+
 
 
         public Task<bool> ValidateCredentials(string email, string password)
@@ -74,6 +83,6 @@ namespace Bitzen_API.Application.Services.User
             return BCrypt.Net.BCrypt.Verify(enteredPassword, storedPassword);
         }
 
-      
+     
     }
 }

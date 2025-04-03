@@ -8,6 +8,7 @@ namespace Bitzen_API.Application.Services.User
     {
         Result<UserModel> CreateUser(CreateUserModel createUserModel);
         Result<UserModel> UpdateUser(int userId, UpdateUserModel updatedUserModel);
+        Result<string> DeleteUser(int userId);
 
         Task<bool> ValidateCredentials(string email, string password);
 

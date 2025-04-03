@@ -47,6 +47,16 @@ namespace Bitzen_API.Controllers
             return Ok(result.Data);
         }
 
+        [HttpDelete("delete-user/{userId}")]
+        public IActionResult DeleteUser(int userId)
+        {
+            var result = _userService.DeleteUser(userId);
+            if (!result.Success)
+                return NotFound(new { message = result.Message });
+
+            return Ok(new { message = result.Data });
+        }
+
 
     }
 }
