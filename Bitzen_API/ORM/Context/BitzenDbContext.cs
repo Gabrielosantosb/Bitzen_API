@@ -11,6 +11,7 @@ namespace Bitzen_API.ORM.Context
 
         public DbSet<UserModel> User { get; set; }
         public DbSet<RoomModel> Room { get; set; }
+        public DbSet<ReservationModel> Reservation { get; set; }
 
     }
 }

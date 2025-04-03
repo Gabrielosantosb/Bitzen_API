@@ -3,6 +3,7 @@ using System;
 using Bitzen_API.ORM.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bitzen_API.Migrations
 {
     [DbContext(typeof(BitzenDbContext))]
-    partial class BitzenDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250403222915_ajustinReservationRelationship")]
+    partial class ajustinReservationRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
