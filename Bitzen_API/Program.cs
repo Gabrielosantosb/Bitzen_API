@@ -34,6 +34,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 #region Dependency Injection
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<BaseRepository<UserModel>>();
+builder.Services.AddScoped<BaseRepository<RoomModel>>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 #endregion
