@@ -2,6 +2,7 @@ using Bitzen_API.Application.Services.Token;
 using Bitzen_API.Application.Services.User;
 using Bitzen_API.ORM.Context;
 using Bitzen_API.ORM.Entity;
+using Bitzen_API.ORM.Mappings.User;
 using Bitzen_API.ORM.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -11,11 +12,26 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+#region Mapper
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(UserMappingProfile));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+#endregion Mapper
+
+
+#region dependecyInjection
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<BaseRepository<UserModel>>();
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserService, UserService>();
+#endregion dependecyInjection
 
 #region postgresconfig
 builder.Services.AddDbContext<BitzenDbContext>(options =>
