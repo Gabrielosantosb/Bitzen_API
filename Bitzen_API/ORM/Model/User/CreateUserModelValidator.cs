@@ -1,13 +1,19 @@
-﻿using FluentValidation;
-namespace Bitzen_API.ORM.Model.User
+﻿using Bitzen_API.ORM.Model.User;
+using FluentValidation;
+
+public class CreateUserModelValidator : AbstractValidator<CreateUserModel>
 {
-    public class CreateUserModelValidator : AbstractValidator<CreateUserModel>
+    public CreateUserModelValidator()
     {
-        public CreateUserModelValidator()
-        {
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Nome é obrigatório.");
-            RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Email inválido.");
-            RuleFor(x => x.Password).NotEmpty().MinimumLength(6).WithMessage("Senha deve ter no mínimo  caracteres.");
-        }
+        RuleFor(x => x.Name)
+            .NotEmpty().WithMessage("O nome é obrigatório.");
+
+        RuleFor(x => x.Email)
+            .NotEmpty().WithMessage("O e-mail é obrigatório.")
+            .EmailAddress().WithMessage("Formato de e-mail inválido.");
+
+        RuleFor(x => x.Password)
+            .NotEmpty().WithMessage("A senha é obrigatória.")
+            .MinimumLength(6).WithMessage("A senha deve ter pelo menos 6 caracteres.");
     }
 }

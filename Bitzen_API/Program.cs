@@ -6,6 +6,7 @@ using Bitzen_API.ORM.Mappings.User;
 using Bitzen_API.ORM.Model.User;
 using Bitzen_API.ORM.Repository;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -17,6 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
 
 #region FluentValidation
 builder.Services.AddScoped<IValidator<CreateUserModel>, CreateUserModelValidator>();
