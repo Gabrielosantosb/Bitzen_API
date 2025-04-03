@@ -8,12 +8,10 @@ namespace Bitzen_API.Application.Services.User
     {
         Result<UserModel> CreateUser(CreateUserModel createUserModel);
         Result<UserModel> UpdateUser(int userId, UpdateUserModel updatedUserModel);
-        Result<string> DeleteUser(int userId);
+        Result<string> DeleteUser(int userId);        
+        Task<Result<LoginResponseModel>> AuthenticateAsync(string email, string password);
 
-        Task<bool> ValidateCredentials(string email, string password);
 
-        //UserModel UpdateUser(int userId, CreateUserModel createUserModel);
-        //UserModel GetUser();
 
     }
 }

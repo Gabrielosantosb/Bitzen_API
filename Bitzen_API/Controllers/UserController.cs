@@ -1,6 +1,10 @@
-﻿using Bitzen_API.Application.Services.User;
+﻿using Bitzen_API.Application.Services.Token;
+using Bitzen_API.Application.Services.User;
+using Bitzen_API.ORM.Entity;
 using Bitzen_API.ORM.Model.User;
+using Bitzen_API.ORM.Repository;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Bitzen_API.Controllers
 {
@@ -8,11 +12,34 @@ namespace Bitzen_API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService)
+        private readonly BaseRepository<UserModel> _userRepository;
+
+        
+
+        private readonly IUserService _userService;                
+        public UserController(IUserService userService, BaseRepository<UserModel> userRepository)
         {
             _userService = userService;
+            _userRepository = userRepository;            
         }
+
+        /// <summary>
+        /// Autentica o usuário e retorna um token JWT em caso de sucesso.
+        /// </summary>
+        /// <param name="model">Credenciais de login.</param>
+        /// <returns>Token JWT e dados do usuário autenticado.</returns>
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] UserRequestLoginModel model)
+        {
+            var result = await _userService.AuthenticateAsync(model.Email, model.Password);
+
+            if (!result.Success)
+                return Unauthorized(new { message = result.Message });
+
+            return Ok(result.Data);
+        }
+
+
 
         /// <summary>
         /// Cria um novo usuário.

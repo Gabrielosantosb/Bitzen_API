@@ -12,13 +12,40 @@ namespace Bitzen_API.Application.Services.User
         private readonly BaseRepository<UserModel> _userRepository;
         private ITokenService _tokenService { get; }
         private readonly IMapper _mapper;
+        private readonly IConfiguration _configuration;
 
-        public UserService(BaseRepository<UserModel> userRepository, ITokenService tokenService, IMapper mapper)
+        public UserService(BaseRepository<UserModel> userRepository, ITokenService tokenService, IMapper mapper, IConfiguration configuration)
         {
             _userRepository = userRepository;
             _tokenService = tokenService;
             _mapper = mapper;
+            _configuration = configuration;
         }
+
+        public async Task<Result<LoginResponseModel>> AuthenticateAsync(string email, string password)
+        {
+            var user = await _userRepository.FindAsync(e => e.Email == email);
+            if (user == null || !VerifyPassword(password, user.Password))
+                return Result<LoginResponseModel>.Fail("E-mail ou senha inválidos.");
+
+            var token = _tokenService.GenerateToken(
+                _configuration["Jwt:Key"],
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"],
+                user
+            );
+
+            var response = new LoginResponseModel
+            {
+                Token = token,
+                Username = user.Name,
+                Message = "Login realizado com sucesso."
+            };
+
+            return Result<LoginResponseModel>.Ok(response);
+        }
+
+
 
         public Result<UserModel> CreateUser(CreateUserModel createUserModel)
         {
@@ -64,14 +91,6 @@ namespace Bitzen_API.Application.Services.User
             _userRepository.SaveChanges();
             return Result<string>.Ok("Usuário deletado com sucesso.");
         }
-
-
-
-        public Task<bool> ValidateCredentials(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
-
         private bool IsEmailTaken(string email)
         {
             return _userRepository.FindAll(e => e.Email == email).Any();
@@ -81,8 +100,6 @@ namespace Bitzen_API.Application.Services.User
         private bool VerifyPassword(string enteredPassword, string storedPassword)
         {
             return BCrypt.Net.BCrypt.Verify(enteredPassword, storedPassword);
-        }
-
-     
+        }     
     }
 }
