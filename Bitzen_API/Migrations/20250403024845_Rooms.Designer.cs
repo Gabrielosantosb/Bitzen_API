@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Bitzen_API.Migrations
 {
     [DbContext(typeof(BitzenDbContext))]
-    [Migration("20250403024058_RoomCreate")]
-    partial class RoomCreate
+    [Migration("20250403024845_Rooms")]
+    partial class Rooms
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

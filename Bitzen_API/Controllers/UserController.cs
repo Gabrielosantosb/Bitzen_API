@@ -11,16 +11,12 @@ namespace Bitzen_API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
-    {
-        private readonly BaseRepository<UserModel> _userRepository;
-
+    {        
         
-
         private readonly IUserService _userService;                
-        public UserController(IUserService userService, BaseRepository<UserModel> userRepository)
+        public UserController(IUserService userService)
         {
-            _userService = userService;
-            _userRepository = userRepository;            
+            _userService = userService;                   
         }
 
         /// <summary>
@@ -46,7 +42,7 @@ namespace Bitzen_API.Controllers
         /// </summary>
         /// <param name="model">Dados do usuário a ser criado.</param>
         /// <returns>Retorna o usuário criado ou mensagem de erro.</returns>
-        [HttpPost]
+        [HttpPost("create-user")]
         public IActionResult CreateUser([FromBody] CreateUserModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
