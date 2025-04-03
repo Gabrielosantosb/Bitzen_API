@@ -7,11 +7,7 @@ namespace Bitzen_API.ORM.Mappings.User
     {
         public UserMappingProfile() {
 
-            CreateMap<CreateUserModel,UserModel>()
-                 .AfterMap((userRequest, userModel) =>
-                 {
-                     userModel.IsActive = true;                     
-                 });            
+            CreateMap<CreateUserModel, UserModel>();                 
         }
 
     }

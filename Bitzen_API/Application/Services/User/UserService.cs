@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bitzen_API.Application.Services.Token;
 using Bitzen_API.ORM.Entity;
+using Bitzen_API.ORM.Model.Common;
 using Bitzen_API.ORM.Model.User;
 using Bitzen_API.ORM.Repository;
 
@@ -19,19 +20,19 @@ namespace Bitzen_API.Application.Services.User
             _mapper = mapper;
         }
 
-        public UserModel CreateUser(CreateUserModel createUserModel)
+        public Result<UserModel> CreateUser(CreateUserModel createUserModel)
         {
             if (IsEmailTaken(createUserModel.Email))
             {
-                throw new Exception("E-mail já está em uso.");
-
+                return Result<UserModel>.Fail("E-mail já está em uso.");
             }
+                
             var salt = BCrypt.Net.BCrypt.GenerateSalt(10);
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(createUserModel.Password, salt);
             var newUser = _mapper.Map<UserModel>(createUserModel);
             var res = _userRepository.Add(newUser);
             _userRepository.SaveChanges();
-            return res;
+            return Result<UserModel>.Ok(res);
         }
 
 
