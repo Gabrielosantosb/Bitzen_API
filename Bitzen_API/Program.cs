@@ -22,7 +22,7 @@ builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 
 #region FluentValidation
-builder.Services.AddScoped<IValidator<CreateUserModel>, CreateUserModelValidator>();
+//builder.Services.AddScoped<IValidator<CreateUserModel>, CreateUserModelValidator>();
 #endregion
 
 #region AutoMapper

@@ -24,8 +24,7 @@ namespace Bitzen_API.Controllers
         [HttpPost]
         public IActionResult CreateUser([FromBody] CreateUserModel model)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if (!ModelState.IsValid) return BadRequest(ModelState);
 
             var result = _userService.CreateUser(model);
             if (!result.Success)

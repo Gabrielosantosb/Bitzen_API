@@ -23,17 +23,19 @@ namespace Bitzen_API.Application.Services.User
         public Result<UserModel> CreateUser(CreateUserModel createUserModel)
         {
             if (IsEmailTaken(createUserModel.Email))
-            {
                 return Result<UserModel>.Fail("E-mail já está em uso.");
-            }
-                
-            var salt = BCrypt.Net.BCrypt.GenerateSalt(10);
-            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(createUserModel.Password, salt);
+
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(createUserModel.Password);
+
             var newUser = _mapper.Map<UserModel>(createUserModel);
+            newUser.Password = hashedPassword;
+
             var res = _userRepository.Add(newUser);
             _userRepository.SaveChanges();
+
             return Result<UserModel>.Ok(res);
         }
+
 
 
         public Task<bool> ValidateCredentials(string email, string password)
