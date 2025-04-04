@@ -51,7 +51,7 @@ A autenticação é feita via JWT. Para utilizar as rotas protegidas:
 3. Clique em “Authorize” no Swagger e insira o token como:
 
 ```
-Bearer {seu_token}
+{seu_token}
 ```
 
 ## 🧪 Endpoints
