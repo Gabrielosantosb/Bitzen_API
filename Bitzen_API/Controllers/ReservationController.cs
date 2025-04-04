@@ -44,7 +44,7 @@ namespace Bitzen_API.Controllers
         /// Cria uma nova reserva de sala.
         /// </summary>      
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public IActionResult CreateReservation(int roomId, [FromBody] CreateReservationModel model)
         {
             if (!ModelState.IsValid)
@@ -56,5 +56,23 @@ namespace Bitzen_API.Controllers
 
             return Ok(new { message = result.Data });
         }
+
+
+        /// <summary>
+        /// Cancela uma reserva existente.
+        /// </summary>
+        /// <param name="reservationId">ID da reserva a ser cancelada.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
+        [HttpPut("cancel/{reservationId}")]
+        [Authorize]
+        public IActionResult CancelReservation(int reservationId)
+        {
+            var result = _reservationService.CancelReservation(reservationId);
+            if (!result.Success)
+                return BadRequest(new { message = result.Message });
+
+            return Ok(new { message = result.Data });
+        }
+
     }
 }
